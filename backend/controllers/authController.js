@@ -42,7 +42,7 @@ export const registerUser = async (req, res) => {
       (err, token) => {
         if (err) {
           console.error(err);
-          throw new err();
+          throw err;
         }
         //return token
         return res.status(201).json(token);
@@ -87,7 +87,7 @@ export const loginUser = async (req, res) => {
       (err, token) => {
         if (err) {
           console.error(err);
-          throw new err();
+          throw err;
         }
         //return token
         return res.status(200).json(token);
