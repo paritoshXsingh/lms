@@ -1,22 +1,30 @@
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+import bcrypt from "bcrypt";
+
+import connectDB from "../config/db.js";
 import Category from "../models/CategoryModel.js";
 import Course from "../models/CourseModel.js";
 import User from "../models/UserModel.js";
-import fs from "fs";
-import bcrypt from "bcrypt";
-import { title } from "process";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, "../.env") });
+
+await connectDB();
 
 const importData = async () => {
   try {
-    // clean the database
     await Course.deleteMany();
     await Category.deleteMany();
     await User.deleteMany();
 
-    //insert the data
-
-    //insert user data
+    // Users
     const usersData = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "/data/users.json"), "utf-8"),
+      fs.readFileSync(path.join(__dirname, "users.json"), "utf-8"),
     );
 
     const usersWithHashedPass = usersData.map((user) => {
@@ -29,39 +37,57 @@ const importData = async () => {
 
     const instructorUser = createdUsers.find(
       (user) => user.role === "instructor",
-    ); //to be used in course as ref
-
-    //insert category data
-    const categoryData = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "/data/category.json"), "utf-8"),
     );
-    const createdCategory = await Category.insertMany(categoryData);
-    const webDevCategory = createdCategory.find(
-      (category) => category.role === "instructor",
-    ); //to be used in course as ref
 
-    //insert course
+    // Categories
+    const categoryData = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "category.json"), "utf-8"),
+    );
+
+    const createdCategory = await Category.insertMany(categoryData);
+
+    const webDevCategory = createdCategory.find((cat) => cat.name === "Web Dev");
+
+    if (!instructorUser) {
+      throw new Error("Seeder could not find an instructor user in users.json");
+    }
+
+    if (!webDevCategory) {
+      throw new Error("Seeder could not find the 'Web Dev' category in category.json");
+    }
+
+    // Courses
     const courses = [
       {
         title: "Complete Web Dev course 2026",
-        description: "get hand on experince with react and node projects",
+        desc: "get hands-on experience with React and Node projects",
         price: 99,
-        instructor: instructorUser.id,
-        category: webDevCategory.id,
+        instructor: instructorUser._id,
+        category: webDevCategory._id,
       },
     ];
 
-    await Category.insertMany(courses);
+    await Course.insertMany(courses);
 
-    console.log("Data is successfully added to databse");
+    console.log("Data imported successfully");
+    process.exit();
   } catch (error) {
-    console.log("Error while adding data", error);
+    console.error(error);
+    process.exit(1);
   }
-
-  const destroyData = () => {
-    //deleteMany quereis will go here
-    console.log("Data destroyed");
-  };
-
-  //login to add script to run seed
 };
+
+const destroyData = async () => {
+  await Course.deleteMany();
+  await Category.deleteMany();
+  await User.deleteMany();
+
+  console.log("Data destroyed");
+  process.exit();
+};
+
+if (process.argv[2] === "-d") {
+  destroyData();
+} else {
+  importData();
+}

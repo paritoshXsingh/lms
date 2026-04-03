@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import Category from "./CategoryModel.js";
 
 const courseSchema = new Schema({
   title: { type: String, required: true },
