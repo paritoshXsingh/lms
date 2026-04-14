@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import HeroSection from "../components/home/HeroSection";
+import FeturedCourses from "../components/home/FeaturedCourses";
+import CtaSection from "../components/home/CtaSection";
 
 export default function Home() {
   return (
@@ -7,7 +9,6 @@ export default function Home() {
       {/* 🔥 HERO SECTION */}
       <HeroSection />
 
-      {/* 🔥 FEATURES SECTION */}
       <section className="py-5">
         <div className="container text-center">
           <h2 className="fw-bold mb-4">Why Choose Us</h2>
@@ -94,93 +95,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-5">
-        <div className="container">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="fw-bold">Featured Courses</h2>
-            <Link to="/courses" className="text-primary text-decoration-none">
-              View All →
-            </Link>
-          </div>
-
-          <div className="row">
-            {/* Course Card */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-              <div className="card shadow-sm h-100">
-                <img
-                  src="https://via.placeholder.com/300x180"
-                  className="card-img-top"
-                  alt="course"
-                />
-                <div className="card-body">
-                  <h6 className="fw-bold">React for Beginners</h6>
-                  <p className="text-muted small mb-1">By John Doe</p>
-                  <p className="fw-semibold text-primary">₹499</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Duplicate cards for now */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-              <div className="card shadow-sm h-100">
-                <img
-                  src="https://via.placeholder.com/300x180"
-                  className="card-img-top"
-                  alt="course"
-                />
-                <div className="card-body">
-                  <h6 className="fw-bold">Node.js Mastery</h6>
-                  <p className="text-muted small mb-1">By Jane Smith</p>
-                  <p className="fw-semibold text-primary">₹699</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-              <div className="card shadow-sm h-100">
-                <img
-                  src="https://via.placeholder.com/300x180"
-                  className="card-img-top"
-                  alt="course"
-                />
-                <div className="card-body">
-                  <h6 className="fw-bold">Python for Data Science</h6>
-                  <p className="text-muted small mb-1">By Alex Lee</p>
-                  <p className="fw-semibold text-primary">₹799</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-              <div className="card shadow-sm h-100">
-                <img
-                  src="https://via.placeholder.com/300x180"
-                  className="card-img-top"
-                  alt="course"
-                />
-                <div className="card-body">
-                  <h6 className="fw-bold">Cyber Security Basics</h6>
-                  <p className="text-muted small mb-1">By Mike Ross</p>
-                  <p className="fw-semibold text-primary">₹599</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 🔥 FEATURES SECTION */}
+      <FeturedCourses />
 
       {/* 🔥 CTA SECTION */}
-      <section className="bg-primary text-light py-5 text-center">
-        <div className="container">
-          <h2 className="fw-bold">Start Learning Today</h2>
-          <p className="mt-2">
-            Join thousands of learners and boost your career.
-          </p>
-          <Link to="/login" className="btn btn-light mt-3 px-4">
-            Join Now
-          </Link>
-        </div>
-      </section>
+      <CtaSection />
     </div>
   );
 }

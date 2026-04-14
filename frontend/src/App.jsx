@@ -4,6 +4,8 @@ import Login from "./pages/Login.jsx";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Register from "./pages/Register.jsx";
+import Courses from "./pages/Courses.jsx";
+import CourseDetails from "./pages/CourseDetails.jsx";
 
 function App() {
   return (
@@ -14,10 +16,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/courses"
-            element={<h1 className="text-center mt-5">Courses Pages</h1>}
-          />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/courses/:id" element={<CourseDetails />} />
         </Routes>
       </main>
       <Footer />
