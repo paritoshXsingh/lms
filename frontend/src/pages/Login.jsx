@@ -1,12 +1,16 @@
 import { useState } from "react";
 import loginIllustration from "../assets/loginIllustration.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../context/authContext.jsx";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const { email, password } = formData;
 
@@ -17,9 +21,12 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("login from submitted", formData);
+    //pass login info to authContext
+    await login(formData.email, formData.password);
+    navigate("/");
   };
 
   return (

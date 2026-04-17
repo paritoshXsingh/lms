@@ -4,13 +4,17 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   //login user
   const login = async (email, password) => {
     try {
       //send the post reuqest to backedn with email and password and deconstruct the data from thr response
       const { data } = await axios.post("/api/auth/login", { email, password });
+      console.log(data);
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data)); //store user info in local storage
     } catch (error) {
@@ -26,13 +30,12 @@ export const AuthProvider = ({ children }) => {
   //register user function
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  useContext(AuthContext);
-  return;
+  return useContext(AuthContext);
 };
