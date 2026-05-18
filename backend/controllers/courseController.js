@@ -19,7 +19,7 @@ export const getCourse = async (req, res) => {
 
     let filter = {};
 
-    // 🔹 Keyword search
+    // Keyword search
     if (keyword) {
       filter.$or = [
         { title: { $regex: keyword, $options: "i" } },
@@ -27,7 +27,7 @@ export const getCourse = async (req, res) => {
       ];
     }
 
-    // 🔹 Category filter
+    // Category filter
     if (category) {
       const foundCategory = await Category.findOne({
         name: { $regex: `^${category}$`, $options: "i" },
@@ -40,7 +40,7 @@ export const getCourse = async (req, res) => {
       filter.category = foundCategory._id;
     }
 
-    // 🔹 Price filter
+    // Price filter
     if (minPrice || maxPrice) {
       filter.price = {};
 
@@ -68,7 +68,7 @@ export const getCourse = async (req, res) => {
 
 export const getCourseById = async (req, res) => {
   try {
-    //we get the id from the request params
+    // We get the id from the request params
     const course = await Course.findById(req.params.id)
       .populate("category", "name")
       .populate("instructor", "name");
