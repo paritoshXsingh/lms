@@ -48,14 +48,26 @@ const Navbar = () => {
           Conditionally render login/logout */}
           <ul className="navbar-nav">
             {user ? (
-              <li className="nav-item">
-                <button
-                  className="nav-link btn btn-link"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </li>
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/learning">
+                    My Learning
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/profile">
+                    Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
             ) : (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/login">

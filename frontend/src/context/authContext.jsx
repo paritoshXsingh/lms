@@ -14,11 +14,12 @@ export const AuthProvider = ({ children }) => {
     try {
       //send the post reuqest to backedn with email and password and deconstruct the data from thr response
       const { data } = await axios.post("/api/auth/login", { email, password });
-      console.log(data);
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data)); //store token as name user into the local storage
+      return data;
     } catch (error) {
       console.error("Error in login user", error);
+      throw error;
     }
   };
 

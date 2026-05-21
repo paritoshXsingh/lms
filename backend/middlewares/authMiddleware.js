@@ -20,6 +20,9 @@ export const authProtect = async (req, res, next) => {
     //decode the token based on our jwt secret key first
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decodedToken.user.id);
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized, user not found" });
+    }
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid Token" });

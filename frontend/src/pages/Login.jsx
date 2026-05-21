@@ -1,6 +1,6 @@
 import { useState } from "react";
 import loginIllustration from "../assets/loginIllustration.svg";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
 
 const Login = () => {
@@ -8,6 +8,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -23,10 +25,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login from submitted", formData);
-    //pass login info to authContext
-    await login(formData.email, formData.password);
-    navigate("/");
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      await login(formData.email, formData.password);
+      navigate("/");
+    } catch (loginError) {
+      setError(loginError.response?.data?.message || "Unable to login right now.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -56,6 +65,8 @@ const Login = () => {
           >
             <h3 className="text-center mb-3">LMS Login</h3>
 
+            {error && <div className="alert alert-danger py-2">{error}</div>}
+
             <form onSubmit={handleSubmit}>
               {/* Email */}
               <div className="mb-3">
@@ -83,8 +94,12 @@ const Login = () => {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary w-100">
-                Login
+              <button
+                type="submit"
+                className="btn btn-primary w-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Logging in..." : "Login"}
               </button>
 
               <div className="text-center mt-3">
