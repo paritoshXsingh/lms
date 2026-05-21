@@ -6,6 +6,9 @@ import Footer from "./components/layout/Footer.jsx";
 import Register from "./pages/Register.jsx";
 import Courses from "./pages/Courses.jsx";
 import CourseDetails from "./pages/CourseDetails.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import LearningPage from "./pages/LearningPage.jsx";
+import LessonPlayerPage from "./pages/LessonPlayerPage.jsx";
 
 function App() {
   return (
@@ -18,6 +21,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:id" element={<CourseDetails />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/learning" element={<LearningPage />} />
+            <Route path="/learning/:id" element={<LessonPlayerPage />} />
+          </Route>
         </Routes>
       </main>
       <Footer />

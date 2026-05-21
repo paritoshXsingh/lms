@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       const { data } = await axios.post("/api/auth/login", { email, password });
       console.log(data);
       setUser(data);
-      localStorage.setItem("user", JSON.stringify(data)); //store user info in local storage
+      localStorage.setItem("user", JSON.stringify(data)); //store token as name user into the local storage
     } catch (error) {
       console.error("Error in login user", error);
     }

@@ -82,3 +82,64 @@ export const getCourseById = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+//enroll user into course
+export const enrollStudentInCourse = async (req, res) => {
+  //enroll user into course
+  //course id in req
+  //fetch the course from the database
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    //validate if user allready purchased the course
+    if (course.enrolledStudents.includes(req.user._id)) {
+      return res.status(400).json({ message: "Already enrolled" });
+    }
+
+    //update/insert user id into enrolledStudents
+    course.enrolledStudents.push(req.user._id);
+
+    //update datbase
+    await course.save();
+    return res.status(200).json({ message: "Successfully enrolled" });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error while enrolling" });
+  }
+};
+
+//fetch the enrolled users courses
+
+export const myCourses = async (req, res) => {
+  //get my courses
+  try {
+    const courses = await Course.find({ enrolledStudents: req.user._id });
+    return res.status(200).json(courses);
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const myCourseById = async (req, res) => {
+  try {
+    const course = await Course.findOne({
+      _id: req.params.id,
+      enrolledStudents: req.user._id,
+    })
+      .populate("category", "name")
+      .populate("instructor", "name");
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found in your learning library",
+      });
+    }
+
+    return res.status(200).json(course);
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error" });
+  }
+};

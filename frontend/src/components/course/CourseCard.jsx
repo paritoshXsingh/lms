@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
-export default function CourseCard({ course, compact = false }) {
+export default function CourseCard({
+  course,
+  compact = false,
+  actionLabel = "View Details",
+  actionTo,
+}) {
   const description = course.desc?.length > 100
     ? `${course.desc.slice(0, 100)}...`
     : course.desc;
@@ -30,10 +35,10 @@ export default function CourseCard({ course, compact = false }) {
         <div className="d-flex justify-content-between align-items-center mt-auto pt-2">
           <span className="fw-bold fs-5 text-primary">₹{course.price}</span>
           <Link
-            to={`/courses/${course._id}`}
+            to={actionTo || `/courses/${course._id}`}
             className="btn btn-outline-primary btn-sm"
           >
-            View Details
+            {actionLabel}
           </Link>
         </div>
       </div>

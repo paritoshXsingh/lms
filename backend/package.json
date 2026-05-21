@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "node --watch app.js",
     "data:import": "node data/seeder.js",
+    "data:demo": "node data/demoSeeder.js",
     "data:destroy": "node data/seeder.js -d"
   },
   "keywords": [],
