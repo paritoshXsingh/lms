@@ -172,3 +172,22 @@ export const createCourse = async (req, res) => {
     });
   }
 };
+
+//instructorCourses
+export const instructorCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({
+      instructor: req.user._id,
+    })
+      .populate("category", "name")
+      .populate("instructor", "name");
+
+    return res.status(200).json(courses);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to fetch instructor courses",
+    });
+  }
+};
