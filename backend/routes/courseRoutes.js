@@ -9,6 +9,7 @@ import {
   instructorCourses,
 } from "../controllers/courseController.js";
 import { authProtect } from "../middlewares/authMiddleware.js";
+import { instructorOnly } from "../middlewares/roleMiddleware.js";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get("/my-courses", authProtect, myCourses);
 router.get("/my-courses/:id", authProtect, myCourseById);
 //get all courses
 router.get("/", getCourse);
-router.post("/", authProtect, createCourse);
+router.post("/", authProtect, instructorOnly, createCourse);
 router.get("/instructor/my-courses", authProtect, instructorCourses);
 //get details of a course against id
 router.get("/:id", getCourseById);
