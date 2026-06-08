@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import registerImg from "../assets/loginIllustration.svg"; // undraw svg
+import { useAuth } from "../context/authContext.jsx";
 
 const Register = () => {
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,9 +20,16 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // later connect backend
+
+    try {
+      await register(name, email, password);
+
+      console.log("Registration successful");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
