@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/authContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function CourseDetails() {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -21,6 +26,26 @@ export default function CourseDetails() {
 
     fetchCourse();
   }, [id]);
+
+  const handleEnroll = async () => {
+    try {
+      const response = await axios.post(
+        `/api/courses/${course._id}/enroll`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        },
+      );
+
+      console.log(response.data);
+
+      navigate("/learning");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (loading) {
     return (
@@ -83,7 +108,11 @@ export default function CourseDetails() {
                 <p className="display-6 fw-bold text-primary mb-3">
                   ₹{course.price}
                 </p>
-                <button className="btn btn-primary w-100" type="button">
+                <button
+                  className="btn btn-primary w-100"
+                  type="button"
+                  onClick={handleEnroll}
+                >
                   Enroll Now
                 </button>
               </div>
@@ -100,7 +129,8 @@ export default function CourseDetails() {
                 <div className="card-body p-4 p-lg-5">
                   <h2 className="h3 fw-bold mb-3">About This Course</h2>
                   <p className="text-muted mb-0 lh-lg">
-                    {course.desc || "Detailed course information will be added soon."}
+                    {course.desc ||
+                      "Detailed course information will be added soon."}
                   </p>
                 </div>
               </div>
