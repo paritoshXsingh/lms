@@ -5,6 +5,7 @@ import {
   enrollStudentInCourse,
   myCourseById,
   myCourses,
+  createCourse,
 } from "../controllers/courseController.js";
 import { authProtect } from "../middlewares/authMiddleware.js";
 
@@ -16,6 +17,7 @@ router.get("/my-courses", authProtect, myCourses);
 router.get("/my-courses/:id", authProtect, myCourseById);
 //get all courses
 router.get("/", getCourse);
+router.post("/", authProtect, createCourse);
 //get details of a course against id
 router.get("/:id", getCourseById);
 //enroll user

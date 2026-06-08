@@ -143,3 +143,32 @@ export const myCourseById = async (req, res) => {
     return res.status(500).json({ message: "Server Error" });
   }
 };
+
+//createCourse
+export const createCourse = async (req, res) => {
+  try {
+    const { title, desc, price, category } = req.body;
+
+    if (!title || !desc || !price || !category) {
+      return res.status(400).json({
+        message: "Please provide all required fields",
+      });
+    }
+
+    const course = await Course.create({
+      title,
+      desc,
+      price,
+      category,
+      instructor: req.user._id,
+      modules: [],
+    });
+
+    return res.status(201).json(course);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Failed to create course",
+    });
+  }
+};

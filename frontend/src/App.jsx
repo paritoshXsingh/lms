@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import LearningPage from "./pages/LearningPage.jsx";
 import LessonPlayerPage from "./pages/LessonPlayerPage.jsx";
 import UserProfilePage from "./pages/UserProfilePage.jsx";
+import InstructorDashboard from "./pages/InstructorDashboard.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/learning" element={<LearningPage />} />
             <Route path="/learning/:id" element={<LessonPlayerPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/instructor" element={<InstructorDashboard />} />
           </Route>
         </Routes>
       </main>
