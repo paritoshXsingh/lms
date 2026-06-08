@@ -191,3 +191,49 @@ export const instructorCourses = async (req, res) => {
     });
   }
 };
+
+//add module
+export const addModule = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({
+        message: "Module title is required",
+      });
+    }
+
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+
+    // Ensure instructor owns this course
+    if (course.instructor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "You can only manage your own courses",
+      });
+    }
+
+    course.modules.push({
+      title,
+      lessons: [],
+    });
+
+    await course.save();
+
+    return res.status(201).json({
+      message: "Module added successfully",
+      modules: course.modules,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to add module",
+    });
+  }
+};

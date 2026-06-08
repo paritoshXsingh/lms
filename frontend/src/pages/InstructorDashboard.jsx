@@ -198,7 +198,11 @@ export default function InstructorDashboard() {
                   <div className="row g-3">
                     {myCourses.map((course) => (
                       <div key={course._id} className="col-12">
-                        <CourseCard course={course} />
+                        <CourseCard
+                          course={course}
+                          actionLabel="Manage Course"
+                          actionTo={`/instructor/course/${course._id}`}
+                        />
                       </div>
                     ))}
                   </div>

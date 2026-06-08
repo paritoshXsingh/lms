@@ -11,6 +11,7 @@ import LearningPage from "./pages/LearningPage.jsx";
 import LessonPlayerPage from "./pages/LessonPlayerPage.jsx";
 import UserProfilePage from "./pages/UserProfilePage.jsx";
 import InstructorDashboard from "./pages/InstructorDashboard.jsx";
+import InstructorCoursePage from "./pages/InstructorCoursePage.jsx";
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
             <Route path="/learning/:id" element={<LessonPlayerPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
             <Route path="/instructor" element={<InstructorDashboard />} />
+            <Route
+              path="/instructor/course/:id"
+              element={<InstructorCoursePage />}
+            />
           </Route>
         </Routes>
       </main>
