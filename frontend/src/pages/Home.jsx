@@ -51,7 +51,10 @@ export default function Home() {
           <div className="row">
             {/* Category Card */}
             <div className="col-6 col-md-3 mb-4">
-              <Link to="/courses?category=web" className="text-decoration-none">
+              <Link
+                to="/courses?category=Web Dev"
+                className="text-decoration-none"
+              >
                 <div className="card shadow-sm p-4 h-100 category-card">
                   <h5>🌐 Web Dev</h5>
                   <p className="text-muted small">HTML, CSS, React</p>
@@ -60,19 +63,16 @@ export default function Home() {
             </div>
 
             <div className="col-6 col-md-3 mb-4">
-              <Link
-                to="/courses?category=data"
-                className="text-decoration-none"
-              >
+              <Link to="/courses?category=DSA" className="text-decoration-none">
                 <div className="card shadow-sm p-4 h-100 category-card">
-                  <h5>📊 Data Science</h5>
+                  <h5>📊 DSA</h5>
                   <p className="text-muted small">Python, ML</p>
                 </div>
               </Link>
             </div>
 
             <div className="col-6 col-md-3 mb-4">
-              <Link to="/courses?category=ai" className="text-decoration-none">
+              <Link to="/courses?category=AI" className="text-decoration-none">
                 <div className="card shadow-sm p-4 h-100 category-card">
                   <h5>🤖 AI & ML</h5>
                   <p className="text-muted small">Deep Learning</p>
@@ -82,12 +82,12 @@ export default function Home() {
 
             <div className="col-6 col-md-3 mb-4">
               <Link
-                to="/courses?category=security"
+                to="/courses?category=Design"
                 className="text-decoration-none"
               >
                 <div className="card shadow-sm p-4 h-100 category-card">
-                  <h5>🔐 Cyber Security</h5>
-                  <p className="text-muted small">Ethical Hacking</p>
+                  <h5>🔐 Design</h5>
+                  <p className="text-muted small">Design Implementations</p>
                 </div>
               </Link>
             </div>
