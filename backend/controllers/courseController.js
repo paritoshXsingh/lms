@@ -237,3 +237,57 @@ export const addModule = async (req, res) => {
     });
   }
 };
+
+//add module
+export const addLesson = async (req, res) => {
+  try {
+    const { moduleId } = req.params;
+    const { title, videoUrl } = req.body;
+
+    if (!title || !videoUrl) {
+      return res.status(400).json({
+        message: "Title and video URL are required",
+      });
+    }
+
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+
+    if (course.instructor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "You can only manage your own courses",
+      });
+    }
+
+    const module = course.modules.id(moduleId);
+
+    if (!module) {
+      return res.status(404).json({
+        message: "Module not found",
+      });
+    }
+
+    module.lessons.push({
+      title,
+      videoUrl,
+    });
+
+    await course.save();
+
+    return res.status(201).json({
+      message: "Lesson added successfully",
+      module,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to add lesson",
+    });
+  }
+};
