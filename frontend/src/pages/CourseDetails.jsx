@@ -78,6 +78,12 @@ export default function CourseDetails() {
     );
   }
 
+  const totalLessons =
+    course?.modules?.reduce(
+      (count, module) => count + (module.lessons?.length || 0),
+      0,
+    ) || 0;
+
   return (
     <div className="bg-light min-vh-100">
       <section
@@ -128,10 +134,92 @@ export default function CourseDetails() {
               <div className="card border-0 shadow-sm h-100">
                 <div className="card-body p-4 p-lg-5">
                   <h2 className="h3 fw-bold mb-3">About This Course</h2>
-                  <p className="text-muted mb-0 lh-lg">
+
+                  <p className="text-muted lh-lg">
                     {course.desc ||
                       "Detailed course information will be added soon."}
                   </p>
+
+                  <hr className="my-4" />
+
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="h4 fw-bold mb-0">Course Curriculum</h3>
+
+                    <span className="badge bg-primary">
+                      {course.modules?.length || 0} Modules • {totalLessons}{" "}
+                      Lessons
+                    </span>
+                  </div>
+
+                  <p className="text-muted mb-4">
+                    Preview the course structure before enrolling.
+                  </p>
+
+                  {course.modules?.length > 0 ? (
+                    <div className="accordion" id="curriculumAccordion">
+                      {course.modules.map((module, index) => (
+                        <div key={index} className="accordion-item">
+                          <h2
+                            className="accordion-header"
+                            id={`heading-${index}`}
+                          >
+                            <button
+                              className={`accordion-button ${
+                                index !== 0 ? "collapsed" : ""
+                              }`}
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target={`#collapse-${index}`}
+                            >
+                              <div className="w-100 d-flex justify-content-between me-3">
+                                <span>{module.title}</span>
+
+                                <small className="text-muted">
+                                  {module.lessons?.length || 0} lessons
+                                </small>
+                              </div>
+                            </button>
+                          </h2>
+
+                          <div
+                            id={`collapse-${index}`}
+                            className={`accordion-collapse collapse ${
+                              index === 0 ? "show" : ""
+                            }`}
+                            data-bs-parent="#curriculumAccordion"
+                          >
+                            <div className="accordion-body p-0">
+                              <ul className="list-group list-group-flush">
+                                {module.lessons?.map((lesson, lessonIndex) => (
+                                  <li
+                                    key={lessonIndex}
+                                    className="list-group-item d-flex justify-content-between align-items-center"
+                                  >
+                                    <span>
+                                      Lesson {lessonIndex + 1}: {lesson.title}
+                                    </span>
+
+                                    <span className="badge bg-secondary">
+                                      🔒 Locked
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="alert alert-light border mb-0">
+                      Curriculum will be added soon.
+                    </div>
+                  )}
+
+                  <div className="alert alert-primary mt-4 mb-0">
+                    Enroll in this course to unlock all lessons and start
+                    learning.
+                  </div>
                 </div>
               </div>
             </div>
