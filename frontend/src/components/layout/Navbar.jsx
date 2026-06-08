@@ -3,6 +3,14 @@ import { useAuth } from "../../context/authContext.jsx";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+
+  let role = null;
+
+  if (user) {
+    const payload = JSON.parse(atob(user.split(".")[1]));
+    role = payload.user.role;
+  }
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -11,11 +19,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 sticky-top shadow-sm">
       <div className="container-fluid">
         {/* Logo / Brand */}
         <Link className="navbar-brand fw-bold" to="/">
-          LMS
+          LearnHub
         </Link>
 
         {/* Toggle button (for mobile) */}
@@ -33,11 +41,6 @@ const Navbar = () => {
           {/* Left side */}
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/courses">
                 Courses
               </Link>
@@ -49,11 +52,20 @@ const Navbar = () => {
           <ul className="navbar-nav">
             {user ? (
               <>
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/learning">
-                    My Learning
-                  </NavLink>
-                </li>
+                {role === "student" && (
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/learning">
+                      My Learning
+                    </NavLink>
+                  </li>
+                )}
+                {role === "instructor" && (
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/instructor">
+                      Instructor Dashboard
+                    </NavLink>
+                  </li>
+                )}
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/profile">
                     Profile
@@ -61,7 +73,7 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <button
-                    className="nav-link btn btn-link"
+                    className="btn nav-link border-0 bg-transparent"
                     onClick={handleLogout}
                   >
                     Logout
