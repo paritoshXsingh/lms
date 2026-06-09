@@ -17,7 +17,12 @@ connectDB();
 
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
 
 app.use("/api/auth", authRoutes); //goes to authRoute
 app.use("/api/courses", courseRoutes); //goes to courseRoutes
@@ -25,13 +30,9 @@ app.use("/api/category", categoryRoutes); //goes to categoryRoutes
 app.use("/api/payment", paymentRoutes);
 app.use("/api/user", userRoutes); //user profile routes
 
-if (process.env.NODE_ENV === "dev") {
+if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
