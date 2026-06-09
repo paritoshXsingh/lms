@@ -126,6 +126,26 @@ export default function InstructorCoursePage() {
     }
   };
 
+  const handleDeleteModule = async (moduleId) => {
+    try {
+      const response = await axios.delete(
+        `/api/courses/${id}/modules/${moduleId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        },
+      );
+
+      setCourse((prev) => ({
+        ...prev,
+        modules: response.data.modules,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="container py-5">
@@ -207,14 +227,23 @@ export default function InstructorCoursePage() {
                     {course.modules.map((module, index) => (
                       <div key={module._id} className="accordion-item">
                         <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target={`#module-${module._id}`}
-                          >
-                            Module {index + 1}: {module.title}
-                          </button>
+                          <div className="d-flex w-100 align-items-center">
+                            <button
+                              className="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target={`#module-${module._id}`}
+                            >
+                              Module {index + 1}: {module.title}
+                            </button>
+
+                            <button
+                              className="btn btn-sm btn-outline-danger me-2"
+                              onClick={() => handleDeleteModule(module._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </h2>
 
                         <div
