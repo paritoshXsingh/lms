@@ -291,3 +291,55 @@ export const addLesson = async (req, res) => {
     });
   }
 };
+
+//deleteLesson
+export const deleteLesson = async (req, res) => {
+  try {
+    const { id, moduleId, lessonId } = req.params;
+
+    const course = await Course.findById(id);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+
+    if (course.instructor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "Access denied",
+      });
+    }
+
+    const module = course.modules.id(moduleId);
+
+    if (!module) {
+      return res.status(404).json({
+        message: "Module not found",
+      });
+    }
+
+    const lesson = module.lessons.id(lessonId);
+
+    if (!lesson) {
+      return res.status(404).json({
+        message: "Lesson not found",
+      });
+    }
+
+    lesson.deleteOne();
+
+    await course.save();
+
+    return res.status(200).json({
+      message: "Lesson deleted successfully",
+      module,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to delete lesson",
+    });
+  }
+};

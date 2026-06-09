@@ -9,6 +9,7 @@ import {
   instructorCourses,
   addModule,
   addLesson,
+  deleteLesson,
 } from "../controllers/courseController.js";
 import { authProtect } from "../middlewares/authMiddleware.js";
 import { instructorOnly } from "../middlewares/roleMiddleware.js";
@@ -29,6 +30,12 @@ router.post(
   authProtect,
   instructorOnly,
   addLesson,
+);
+router.delete(
+  "/:id/modules/:moduleId/lessons/:lessonId",
+  authProtect,
+  instructorOnly,
+  deleteLesson,
 );
 //get details of a course against id
 router.get("/:id", getCourseById);
