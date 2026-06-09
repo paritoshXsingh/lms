@@ -238,7 +238,7 @@ export const addModule = async (req, res) => {
   }
 };
 
-//add module
+//add lesson
 export const addLesson = async (req, res) => {
   try {
     const { moduleId } = req.params;
@@ -340,6 +340,48 @@ export const deleteLesson = async (req, res) => {
 
     return res.status(500).json({
       message: "Failed to delete lesson",
+    });
+  }
+};
+
+//delete module
+export const deleteModule = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+
+    if (course.instructor.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "Access denied",
+      });
+    }
+
+    const module = course.modules.id(req.params.moduleId);
+
+    if (!module) {
+      return res.status(404).json({
+        message: "Module not found",
+      });
+    }
+
+    module.deleteOne();
+
+    await course.save();
+
+    return res.status(200).json({
+      message: "Module deleted successfully",
+      modules: course.modules,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to delete module",
     });
   }
 };
