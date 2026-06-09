@@ -30,6 +30,28 @@ export default function InstructorCoursePage() {
     fetchCourse();
   }, [id]);
 
+  const handleDeleteLesson = async (moduleId, lessonId) => {
+    try {
+      const response = await axios.delete(
+        `/api/courses/${id}/modules/${moduleId}/lessons/${lessonId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        },
+      );
+
+      setCourse((prev) => ({
+        ...prev,
+        modules: prev.modules.map((module) =>
+          module._id === moduleId ? response.data.module : module,
+        ),
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleAddLesson = async (e, moduleId) => {
     e.preventDefault();
 
@@ -213,13 +235,31 @@ export default function InstructorCoursePage() {
                                     key={lesson._id}
                                     className="list-group-item"
                                   >
-                                    <strong>Lesson {lessonIndex + 1}</strong>
+                                    <div className="d-flex justify-content-between align-items-start">
+                                      <div>
+                                        <strong>
+                                          Lesson {lessonIndex + 1}
+                                        </strong>
 
-                                    <div>{lesson.title}</div>
+                                        <div>{lesson.title}</div>
 
-                                    <small className="text-muted">
-                                      {lesson.videoUrl}
-                                    </small>
+                                        <small className="text-muted">
+                                          {lesson.videoUrl}
+                                        </small>
+                                      </div>
+
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() =>
+                                          handleDeleteLesson(
+                                            module._id,
+                                            lesson._id,
+                                          )
+                                        }
+                                      >
+                                        Delete
+                                      </button>
+                                    </div>
                                   </div>
                                 ))}
                               </div>
