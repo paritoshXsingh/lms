@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import registerImg from "../assets/loginIllustration.svg"; // undraw svg
+import { Link, useNavigate } from "react-router-dom";
+import registerImg from "../assets/loginIllustration.svg";
 import { useAuth } from "../context/authContext.jsx";
 
 const Register = () => {
   const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,98 +29,141 @@ const Register = () => {
     e.preventDefault();
 
     try {
+      setError("");
+      setSuccess("");
+
       await register(name, email, password);
 
-      console.log("Registration successful");
-    } catch (error) {
-      console.error(error);
+      setSuccess("Account created successfully!");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err?.response?.data?.message ||
+          "Registration failed. Please try again.",
+      );
     }
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row min-vh-100">
-        {/* LEFT: Form */}
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
-          <div
-            className="card p-4 shadow w-100 mx-3"
-            style={{ maxWidth: "400px" }}
-          >
-            <h3 className="text-center mb-3">Create Account</h3>
+    <section
+      className="min-vh-100 d-flex align-items-center"
+      style={{
+        background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      }}
+    >
+      <div className="container">
+        <div className="row justify-content-center align-items-center g-5">
+          {/* LEFT SIDE */}
+          <div className="col-lg-5">
+            <div className="card border-0 shadow-lg">
+              <div className="card-body p-4 p-md-5">
+                <div className="text-center mb-4">
+                  <h2 className="fw-bold">Create Account</h2>
 
-            <form onSubmit={handleSubmit}>
-              {/* Name */}
-              <div className="mb-3">
-                <label className="form-label">Full Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={name}
-                  onChange={handleChange}
-                  required
-                />
+                  <p className="text-muted mb-0">
+                    Join LearnHub and start learning today.
+                  </p>
+                </div>
+
+                {success && (
+                  <div className="alert alert-success">{success}</div>
+                )}
+
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label className="form-label">Full Name</label>
+
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="name"
+                      value={name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Email Address</label>
+
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      value={email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Password</label>
+
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={password}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary w-100">
+                    Create Account
+                  </button>
+                </form>
+
+                <div className="text-center mt-4">
+                  <span className="text-muted">Already have an account?</span>
+
+                  <Link
+                    to="/login"
+                    className="fw-semibold text-decoration-none ms-2"
+                  >
+                    Login
+                  </Link>
+                </div>
               </div>
-
-              {/* Email */}
-              <div className="mb-3">
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Password */}
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Button */}
-              <button type="submit" className="btn btn-primary w-100">
-                Register
-              </button>
-
-              {/* Login Link */}
-              <div className="text-center mt-3">
-                <span>Already have an account? </span>
-                <Link to="/login" className="text-primary fw-semibold">
-                  Login
-                </Link>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
 
-        {/* RIGHT: Illustration (desktop only) */}
-        <div className="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-light">
-          <div className="text-center p-4">
-            <img
-              src={registerImg}
-              alt="register"
-              className="img-fluid mb-3"
-              style={{ maxWidth: "80%" }}
-            />
-            <h4 className="fw-bold">Join Smart LMS</h4>
-            <p className="text-muted">
-              Start your learning journey today with top courses.
-            </p>
+          {/* RIGHT SIDE */}
+          <div className="col-lg-6 d-none d-lg-block">
+            <div className="text-center text-white">
+              <img
+                src={registerImg}
+                alt="LearnHub Register"
+                className="img-fluid mb-4"
+                style={{
+                  maxHeight: "420px",
+                }}
+              />
+
+              <h1 className="fw-bold mb-3">Welcome to LearnHub</h1>
+
+              <p
+                className="mx-auto"
+                style={{
+                  maxWidth: "500px",
+                  fontSize: "1.05rem",
+                }}
+              >
+                Learn from expert instructors, build real-world projects, and
+                grow your career with practical, industry-focused courses.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

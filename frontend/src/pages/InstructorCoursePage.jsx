@@ -174,7 +174,43 @@ export default function InstructorCoursePage() {
             <span className="text-muted">₹{course.price}</span>
           </div>
 
-          <p className="text-muted mt-3">{course.desc}</p>
+          <p className="text-muted mt-3 mb-4">{course.desc}</p>
+
+          <div className="row g-3 mb-4">
+            <div className="col-6 col-md-4">
+              <div className="card border-0 shadow-sm">
+                <div className="card-body text-center">
+                  <h4 className="fw-bold text-primary">
+                    {course.modules?.length || 0}
+                  </h4>
+                  <small className="text-muted">Modules</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-6 col-md-4">
+              <div className="card border-0 shadow-sm">
+                <div className="card-body text-center">
+                  <h4 className="fw-bold text-success">
+                    {course.modules?.reduce(
+                      (count, module) => count + (module.lessons?.length || 0),
+                      0,
+                    )}
+                  </h4>
+                  <small className="text-muted">Lessons</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-md-4">
+              <div className="card border-0 shadow-sm">
+                <div className="card-body text-center">
+                  <h4 className="fw-bold text-warning">₹{course.price}</h4>
+                  <small className="text-muted">Course Price</small>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="row g-4">
@@ -182,7 +218,11 @@ export default function InstructorCoursePage() {
           <div className="col-lg-4">
             <div className="card shadow-sm border-0">
               <div className="card-body">
-                <h4>Add Module</h4>
+                <h4 className="fw-bold">Create New Module</h4>
+
+                <p className="text-muted">
+                  Organize your lessons into structured modules.
+                </p>
 
                 {success && (
                   <div className="alert alert-success">{success}</div>
@@ -234,7 +274,15 @@ export default function InstructorCoursePage() {
                               data-bs-toggle="collapse"
                               data-bs-target={`#module-${module._id}`}
                             >
-                              Module {index + 1}: {module.title}
+                              <div className="d-flex justify-content-between w-100 me-3">
+                                <span>
+                                  Module {index + 1}: {module.title}
+                                </span>
+
+                                <small className="text-muted">
+                                  {module.lessons?.length || 0} lessons
+                                </small>
+                              </div>
                             </button>
 
                             <button
@@ -266,14 +314,15 @@ export default function InstructorCoursePage() {
                                   >
                                     <div className="d-flex justify-content-between align-items-start">
                                       <div>
-                                        <strong>
-                                          Lesson {lessonIndex + 1}
-                                        </strong>
+                                        <div className="fw-semibold">
+                                          Lesson {lessonIndex + 1}:{" "}
+                                          {lesson.title}
+                                        </div>
 
                                         <div>{lesson.title}</div>
 
-                                        <small className="text-muted">
-                                          {lesson.videoUrl}
+                                        <small className="text-success">
+                                          Video attached
                                         </small>
                                       </div>
 

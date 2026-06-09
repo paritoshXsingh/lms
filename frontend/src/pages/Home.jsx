@@ -9,40 +9,39 @@ export default function Home() {
       {/* 🔥 HERO SECTION */}
       <HeroSection />
 
-      <section className="py-5">
-        <div className="container text-center">
-          <h2 className="fw-bold mb-4">Why Choose Us</h2>
-
-          <div className="row">
-            <div className="col-md-4 mb-4">
-              <div className="card shadow-sm p-3 h-100">
-                <h5>📚 Expert Courses</h5>
-                <p className="text-muted">
-                  Learn from industry professionals with real-world experience.
-                </p>
-              </div>
+      {/* 🔥 STATS SECTION */}
+      <section
+        className="py-4 text-white"
+        style={{
+          background: "linear-gradient(135deg, #0d6efd 0%, #20c997 100%)",
+        }}
+      >
+        <div className="container">
+          <div className="row text-center">
+            <div className="col-6 col-md-3 mb-3 mb-md-0">
+              <h3 className="fw-bold">500+</h3>
+              <small>Students</small>
             </div>
 
-            <div className="col-md-4 mb-4">
-              <div className="card shadow-sm p-3 h-100">
-                <h5>💻 Learn Anytime</h5>
-                <p className="text-muted">
-                  Access courses anytime, anywhere at your own pace.
-                </p>
-              </div>
+            <div className="col-6 col-md-3 mb-3 mb-md-0">
+              <h3 className="fw-bold">50+</h3>
+              <small>Courses</small>
             </div>
 
-            <div className="col-md-4 mb-4">
-              <div className="card shadow-sm p-3 h-100">
-                <h5>🚀 Career Growth</h5>
-                <p className="text-muted">
-                  Build skills that help you land better opportunities.
-                </p>
-              </div>
+            <div className="col-6 col-md-3">
+              <h3 className="fw-bold">20+</h3>
+              <small>Instructors</small>
+            </div>
+
+            <div className="col-6 col-md-3">
+              <h3 className="fw-bold">4</h3>
+              <small>Categories</small>
             </div>
           </div>
         </div>
       </section>
+
+      <section className="py-4 pb-5"></section>
 
       <section className="py-5 bg-light">
         <div className="container text-center">

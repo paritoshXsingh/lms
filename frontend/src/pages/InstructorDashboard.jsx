@@ -7,6 +7,7 @@ export default function InstructorDashboard() {
   const { user } = useAuth();
 
   const [categories, setCategories] = useState([]);
+  const [myCourses, setMyCourses] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -14,7 +15,7 @@ export default function InstructorDashboard() {
     price: "",
     category: "",
   });
-  const [myCourses, setMyCourses] = useState([]);
+
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
@@ -44,7 +45,7 @@ export default function InstructorDashboard() {
         const response = await axios.get("/api/category");
         setCategories(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -95,23 +96,82 @@ export default function InstructorDashboard() {
       setError("Failed to create course");
     }
   };
+
+  const totalRevenuePotential = myCourses.reduce(
+    (sum, course) => sum + Number(course.price || 0),
+    0,
+  );
+
   return (
     <section className="py-5 bg-light min-vh-100">
       <div className="container">
+        {/* HEADER */}
         <div className="mb-4">
-          <h1 className="fw-bold">Instructor Dashboard</h1>
-          <p className="text-muted">
-            Manage your courses and create new learning content.
+          <h1 className="fw-bold display-6">Instructor Dashboard</h1>
+
+          <p className="text-muted mb-0">
+            Manage your courses and create engaging learning experiences.
           </p>
         </div>
 
+        {/* STATS */}
+        <div className="row g-3 mb-4">
+          <div className="col-6 col-lg-3">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body text-center">
+                <h3 className="fw-bold text-primary mb-1">
+                  {myCourses.length}
+                </h3>
+
+                <small className="text-muted">Courses</small>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-6 col-lg-3">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body text-center">
+                <h3 className="fw-bold text-success mb-1">
+                  ₹{totalRevenuePotential}
+                </h3>
+
+                <small className="text-muted">Revenue Potential</small>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-6 col-lg-3">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body text-center">
+                <h3 className="fw-bold text-info mb-1">{categories.length}</h3>
+
+                <small className="text-muted">Categories</small>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-6 col-lg-3">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body text-center">
+                <h3 className="fw-bold text-warning mb-1">Active</h3>
+
+                <small className="text-muted">Instructor</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* MAIN CONTENT */}
         <div className="row g-4">
-          <div className="col-md-6">
-            <div className="card shadow-sm border-0">
-              <div className="card-body">
-                <h4>Create Course</h4>
-                <p className="text-muted">
-                  Create a new course and start building content.
+          {/* CREATE COURSE */}
+          <div className="col-lg-5">
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body p-4">
+                <h3 className="fw-bold mb-2">Create a New Course</h3>
+
+                <p className="text-muted mb-4">
+                  Build and publish professional learning content for your
+                  students.
                 </p>
 
                 <form onSubmit={handleSubmit}>
@@ -137,7 +197,7 @@ export default function InstructorDashboard() {
                     <textarea
                       name="desc"
                       className="form-control"
-                      rows="3"
+                      rows="4"
                       placeholder="Course Description"
                       value={formData.desc}
                       onChange={handleChange}
@@ -150,14 +210,14 @@ export default function InstructorDashboard() {
                       type="number"
                       name="price"
                       className="form-control"
-                      placeholder="Price"
+                      placeholder="Course Price"
                       value={formData.price}
                       onChange={handleChange}
                       required
                     />
                   </div>
 
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <select
                       className="form-select"
                       name="category"
@@ -175,7 +235,7 @@ export default function InstructorDashboard() {
                     </select>
                   </div>
 
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-primary px-4">
                     Create Course
                   </button>
                 </form>
@@ -183,16 +243,25 @@ export default function InstructorDashboard() {
             </div>
           </div>
 
-          <div className="col-md-6">
-            <div className="card shadow-sm border-0">
-              <div className="card-body">
-                <h4>My Courses</h4>
+          {/* MY COURSES */}
+          <div className="col-lg-7">
+            <div className="card border-0 shadow-sm">
+              <div className="card-body p-4">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div>
+                    <h3 className="fw-bold mb-1">My Courses</h3>
 
-                <p className="text-muted">Courses created by you.</p>
+                    <p className="text-muted mb-0">Courses created by you.</p>
+                  </div>
+
+                  <span className="badge bg-primary">
+                    {myCourses.length} Courses
+                  </span>
+                </div>
 
                 {myCourses.length === 0 ? (
-                  <div className="alert alert-light border">
-                    You have not created any courses yet.
+                  <div className="alert alert-info mb-0">
+                    You haven't created any courses yet.
                   </div>
                 ) : (
                   <div className="row g-3">

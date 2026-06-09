@@ -1,7 +1,9 @@
 import heroImg from "../../assets/loginIllustration.svg";
 import { Link } from "react-router";
+import { useAuth } from "../../context/authContext.jsx";
 
 export default function HeroSection() {
+  const { user } = useAuth();
   return (
     <section
       className="py-5 text-light"
@@ -14,19 +16,23 @@ export default function HeroSection() {
           {/* Left Content */}
           <div className="col-md-6 text-center text-md-start">
             <h1 className="fw-bold display-5">
-              Learn Smarter with <span className="text-primary">Smart LMS</span>
+              Learn Smarter with <span className="text-white">LearnHub</span>
             </h1>
             <p className="text-muted mt-3">
-              Upgrade your skills with top courses from industry experts. Learn
-              anytime, anywhere.
+              Master in-demand skills through expert-led courses, hands-on
+              projects, and flexible learning paths designed for your career
+              growth.
             </p>
 
             <div className="mt-4">
               <Link to="/courses" className="btn btn-primary me-3 px-4">
                 Explore Courses
               </Link>
-              <Link to="/login" className="btn btn-outline-primary px-4">
-                Get Started
+              <Link
+                to={user ? "/courses" : "/register"}
+                className="btn btn-light px-4"
+              >
+                {user ? "Continue Learning" : "Get Started"}
               </Link>
             </div>
           </div>

@@ -4,15 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const { login } = useAuth();
-  const navigate = useNavigate();
 
   const { email, password } = formData;
 
@@ -25,97 +26,125 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     setIsSubmitting(true);
 
     try {
-      await login(formData.email, formData.password);
+      await login(email, password);
+
       navigate("/");
     } catch (loginError) {
-      setError(loginError.response?.data?.message || "Unable to login right now.");
+      setError(
+        loginError.response?.data?.message || "Unable to login right now.",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="container-fluid h-100 d-flex flex-column">
-      <div className="row flex-grow-1">
-        {/* LEFT: Illustration (only on md and above) */}
-        <div className="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-light">
-          <div className="text-center p-4">
-            <img
-              src={loginIllustration}
-              alt="login illustration"
-              className="img-fluid mb-3"
-              style={{ maxWidth: "80%" }}
-            />
-            <h4 className="fw-bold">Welcome Back!</h4>
-            <p className="text-muted">
-              Login to access your courses and continue learning.
-            </p>
-          </div>
-        </div>
+    <section
+      className="min-vh-100 d-flex align-items-center"
+      style={{
+        background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      }}
+    >
+      <div className="container">
+        <div className="row justify-content-center align-items-center g-5">
+          {/* LEFT SIDE */}
+          <div className="col-lg-6 d-none d-lg-block">
+            <div className="text-center text-white">
+              <img
+                src={loginIllustration}
+                alt="LearnHub Login"
+                className="img-fluid mb-4"
+                style={{
+                  maxHeight: "420px",
+                }}
+              />
 
-        {/* RIGHT: Login Form */}
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
-          <div
-            className="card p-4 shadow w-100 mx-3"
-            style={{ maxWidth: "400px" }}
-          >
-            <h3 className="text-center mb-3">LMS Login</h3>
+              <h1 className="fw-bold mb-3">Welcome Back</h1>
 
-            {error && <div className="alert alert-danger py-2">{error}</div>}
-
-            <form onSubmit={handleSubmit}>
-              {/* Email */}
-              <div className="mb-3">
-                <label className="form-label">Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Password */}
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-                disabled={isSubmitting}
+              <p
+                className="mx-auto"
+                style={{
+                  maxWidth: "500px",
+                  fontSize: "1.05rem",
+                }}
               >
-                {isSubmitting ? "Logging in..." : "Login"}
-              </button>
+                Continue your learning journey, access your enrolled courses,
+                and track your progress with LearnHub.
+              </p>
+            </div>
+          </div>
 
-              <div className="text-center mt-3">
-                <span>Don't have an account? </span>
-                <Link
-                  to="/register"
-                  className="text-decoration-none text-primary fw-semibold"
-                >
-                  Sign up
-                </Link>
+          {/* RIGHT SIDE */}
+          <div className="col-lg-5">
+            <div className="card border-0 shadow-lg">
+              <div className="card-body p-4 p-md-5">
+                <div className="text-center mb-4">
+                  <h2 className="fw-bold">Login</h2>
+
+                  <p className="text-muted mb-0">
+                    Sign in to your LearnHub account.
+                  </p>
+                </div>
+
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label className="form-label">Email Address</label>
+
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      value={email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="form-label">Password</label>
+
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={password}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Logging in..." : "Login"}
+                  </button>
+                </form>
+
+                <div className="text-center mt-4">
+                  <span className="text-muted">Don't have an account?</span>
+
+                  <Link
+                    to="/register"
+                    className="fw-semibold text-decoration-none ms-2"
+                  >
+                    Create Account
+                  </Link>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

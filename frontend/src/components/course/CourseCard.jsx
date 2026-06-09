@@ -6,9 +6,8 @@ export default function CourseCard({
   actionLabel = "View Details",
   actionTo,
 }) {
-  const description = course.desc?.length > 100
-    ? `${course.desc.slice(0, 100)}...`
-    : course.desc;
+  const description =
+    course.desc?.length > 100 ? `${course.desc.slice(0, 100)}...` : course.desc;
 
   return (
     <div className="card border-0 shadow-sm h-100 overflow-hidden">
@@ -23,9 +22,13 @@ export default function CourseCard({
           {course.category?.name || "General"}
         </span>
         <h5 className="fw-bold mb-2">{course.title}</h5>
-        <p className="mb-0 small text-white-50">
-          {description || "Learn through practical lessons and guided content."}
-        </p>
+        <div
+          style={{
+            minHeight: "72px",
+          }}
+        >
+          <p className="mb-0 small text-white-50">{description}</p>
+        </div>
       </div>
 
       <div className="card-body d-flex flex-column">
@@ -33,7 +36,7 @@ export default function CourseCard({
           Instructor: {course.instructor?.name || "Expert Mentor"}
         </p>
         <div className="d-flex justify-content-between align-items-center mt-auto pt-2">
-          <span className="fw-bold fs-5 text-primary">₹{course.price}</span>
+          <span className="fw-bold fs-4 text-primary">₹{course.price}</span>
           <Link
             to={actionTo || `/courses/${course._id}`}
             className="btn btn-outline-primary btn-sm"

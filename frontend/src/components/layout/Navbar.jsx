@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 sticky-top shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-2 sticky-top shadow-sm">
       <div className="container-fluid">
         {/* Logo / Brand */}
         <Link className="navbar-brand fw-bold" to="/">

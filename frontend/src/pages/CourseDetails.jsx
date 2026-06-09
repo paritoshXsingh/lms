@@ -89,21 +89,33 @@ export default function CourseDetails() {
               <p className="lead text-white-50 mb-0">
                 {course.desc || "Course description coming soon."}
               </p>
+
+              <div className="d-flex flex-wrap gap-3 mt-3 text-white">
+                <span>👨‍🏫 {course.instructor?.name || "Expert Mentor"}</span>
+
+                <span>📚 {course.modules?.length || 0} Modules</span>
+
+                <span>🎬 {totalLessons} Lessons</span>
+              </div>
             </div>
             <div className="col-lg-4">
               <div className="bg-white rounded-4 shadow p-4 text-dark">
                 <p className="text-uppercase text-muted small mb-2">
                   Enrollment Price
                 </p>
-                <p className="display-6 fw-bold text-primary mb-3">
+                <p className="display-6 fw-bold text-primary mb-2">
                   ₹{course.price}
+                </p>
+
+                <p className="text-muted small mb-3">
+                  Lifetime access • Learn at your own pace
                 </p>
                 <button
                   className="btn btn-primary w-100"
                   type="button"
                   onClick={handleEnroll}
                 >
-                  Enroll Now
+                  Start Learning
                 </button>
               </div>
             </div>
@@ -129,7 +141,7 @@ export default function CourseDetails() {
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <h3 className="h4 fw-bold mb-0">Course Curriculum</h3>
 
-                    <span className="badge bg-primary">
+                    <span className="badge bg-primary px-3 py-2">
                       {course.modules?.length || 0} Modules • {totalLessons}{" "}
                       Lessons
                     </span>
@@ -183,8 +195,8 @@ export default function CourseDetails() {
                                       Lesson {lessonIndex + 1}: {lesson.title}
                                     </span>
 
-                                    <span className="badge bg-secondary">
-                                      🔒 Locked
+                                    <span className="badge bg-dark">
+                                      🔒 Enroll to Access
                                     </span>
                                   </li>
                                 ))}
@@ -225,8 +237,15 @@ export default function CourseDetails() {
                     </span>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <span className="text-muted">Course ID</span>
-                    <span className="fw-semibold small">{course._id}</span>
+                    <span className="text-muted">Modules</span>
+                    <span className="fw-semibold">
+                      {course.modules?.length || 0}
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <span className="text-muted">Lessons</span>
+
+                    <span className="fw-semibold">{totalLessons}</span>
                   </div>
                 </div>
               </div>
