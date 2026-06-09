@@ -12,6 +12,7 @@ import LessonPlayerPage from "./pages/LessonPlayerPage.jsx";
 import UserProfilePage from "./pages/UserProfilePage.jsx";
 import InstructorDashboard from "./pages/InstructorDashboard.jsx";
 import InstructorCoursePage from "./pages/InstructorCoursePage.jsx";
+import CheckOutPage from "./pages/CheckOutPage.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/learning" element={<LearningPage />} />
             <Route path="/learning/:id" element={<LessonPlayerPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/checkout/:id" element={<CheckOutPage />} />
             <Route path="/instructor" element={<InstructorDashboard />} />
             <Route
               path="/instructor/course/:id"

@@ -27,24 +27,8 @@ export default function CourseDetails() {
     fetchCourse();
   }, [id]);
 
-  const handleEnroll = async () => {
-    try {
-      const response = await axios.post(
-        `/api/courses/${course._id}/enroll`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user}`,
-          },
-        },
-      );
-
-      console.log(response.data);
-
-      navigate("/learning");
-    } catch (error) {
-      console.error(error);
-    }
+  const handleEnroll = () => {
+    navigate(`/checkout/${course._id}`);
   };
 
   if (loading) {
