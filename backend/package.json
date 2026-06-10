@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node --watch app.js",
-    "data:import": "node data/seeder.js",
     "data:demo": "node data/demoSeeder.js",
-    "data:destroy": "node data/seeder.js -d"
+    "data:destroy": "node data/demoSeeder.js -d"
   },
   "keywords": [],
   "author": "",

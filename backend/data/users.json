@@ -1,12 +1,12 @@
 [
   {
-    "name": "Test Instructor",
-    "email": "instructor@example.com",
+    "name": "Paritosh Singh",
+    "email": "paritosh@learnhub.dev",
     "password": "password123",
     "role": "instructor"
   },
   {
-    "name": "Test Student",
+    "name": "Demo Student",
     "email": "student@example.com",
     "password": "password123",
     "role": "student"
