@@ -118,7 +118,9 @@ const UserProfilePage = () => {
       setProfileSuccess(data.message || "Profile updated successfully.");
     } catch (error) {
       console.error(error);
-      setProfileError(error.response?.data?.message || "Unable to update profile.");
+      setProfileError(
+        error.response?.data?.message || "Unable to update profile.",
+      );
     } finally {
       setSavingProfile(false);
     }
@@ -154,9 +156,35 @@ const UserProfilePage = () => {
       setPasswordSuccess(data.message || "Password updated successfully.");
     } catch (error) {
       console.error(error);
-      setPasswordError(error.response?.data?.message || "Unable to update password.");
+      setPasswordError(
+        error.response?.data?.message || "Unable to update password.",
+      );
     } finally {
       setUpdatingPassword(false);
+    }
+  };
+
+  const handleBecomeInstructor = async () => {
+    try {
+      const response = await axios.patch(
+        "/api/user/become-instructor",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        },
+      );
+
+      localStorage.setItem("user", JSON.stringify(response.data.token));
+
+      alert("You are now an instructor!");
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+
+      alert(error.response?.data?.message || "Failed to become instructor");
     }
   };
 
@@ -185,18 +213,32 @@ const UserProfilePage = () => {
                         <div>
                           <h2 className="h4 mb-1">Profile Details</h2>
                           <p className="text-muted mb-0">
-                            These details will help personalize the learning experience.
+                            These details will help personalize the learning
+                            experience.
                           </p>
                         </div>
-                        {role && (
-                          <span className="badge text-bg-dark text-uppercase">
-                            {role}
-                          </span>
-                        )}
+                        <div className="d-flex gap-2 align-items-center">
+                          {role && (
+                            <span className="badge text-bg-dark text-uppercase">
+                              {role}
+                            </span>
+                          )}
+
+                          {role === "student" && (
+                            <button
+                              className="btn btn-sm btn-success"
+                              onClick={handleBecomeInstructor}
+                            >
+                              Become Instructor
+                            </button>
+                          )}
+                        </div>
                       </div>
 
                       {profileError && (
-                        <div className="alert alert-danger py-2">{profileError}</div>
+                        <div className="alert alert-danger py-2">
+                          {profileError}
+                        </div>
                       )}
                       {profileSuccess && (
                         <div className="alert alert-success py-2">
@@ -254,7 +296,9 @@ const UserProfilePage = () => {
                           </div>
 
                           <div className="col-12 col-md-6">
-                            <label className="form-label">Year of Passing</label>
+                            <label className="form-label">
+                              Year of Passing
+                            </label>
                             <input
                               type="number"
                               className="form-control"
@@ -301,7 +345,9 @@ const UserProfilePage = () => {
                       </p>
 
                       {passwordError && (
-                        <div className="alert alert-danger py-2">{passwordError}</div>
+                        <div className="alert alert-danger py-2">
+                          {passwordError}
+                        </div>
                       )}
                       {passwordSuccess && (
                         <div className="alert alert-success py-2">
@@ -336,7 +382,9 @@ const UserProfilePage = () => {
                         </div>
 
                         <div className="mb-3">
-                          <label className="form-label">Confirm New Password</label>
+                          <label className="form-label">
+                            Confirm New Password
+                          </label>
                           <input
                             type="password"
                             className="form-control"

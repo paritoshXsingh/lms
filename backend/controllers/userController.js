@@ -1,5 +1,6 @@
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const formatUserProfile = (user) => ({
   id: user._id,
@@ -61,8 +62,14 @@ export const updateUserProfile = async (req, res) => {
       } else {
         const parsedYear = Number(yearOfPassing);
 
-        if (!Number.isInteger(parsedYear) || parsedYear < 1900 || parsedYear > 3000) {
-          return res.status(400).json({ message: "Please enter a valid passing year" });
+        if (
+          !Number.isInteger(parsedYear) ||
+          parsedYear < 1900 ||
+          parsedYear > 3000
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Please enter a valid passing year" });
         }
 
         user.yearOfPassing = parsedYear;
@@ -98,9 +105,9 @@ export const updateUserPassword = async (req, res) => {
     }
 
     if (currentPassword === newPassword) {
-      return res
-        .status(400)
-        .json({ message: "New password must be different from the current password" });
+      return res.status(400).json({
+        message: "New password must be different from the current password",
+      });
     }
 
     const user = await User.findById(req.user._id);
@@ -125,5 +132,50 @@ export const updateUserPassword = async (req, res) => {
   } catch (error) {
     console.error("Error updating user password", error);
     return res.status(500).json({ message: "Failed to update password" });
+  }
+};
+
+//become instructor
+export const becomeInstructor = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    if (user.role === "instructor") {
+      return res.status(400).json({
+        message: "Already an instructor",
+      });
+    }
+
+    user.role = "instructor";
+
+    await user.save();
+
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.role,
+      },
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "5d",
+    });
+
+    return res.status(200).json({
+      message: "You are now an instructor",
+      token,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to update role",
+    });
   }
 };

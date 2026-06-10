@@ -1,179 +1,90 @@
 # LearnHub
 
-LearnHub is a full-stack Learning Management System (LMS) that allows instructors to create and manage courses while students can browse, purchase, and consume educational content through an intuitive learning platform.
+LearnHub is a full-stack Learning Management System (LMS) built using the MERN stack. The platform enables students to discover, purchase, and consume online courses while allowing instructors to create and manage educational content through a dedicated dashboard.
+
+## Live Demo
+
+Frontend: https://lms-mu-hazel.vercel.app
+
+Backend API: https://lms-4cho.onrender.com
 
 ## Features
 
+### Authentication & Authorization
+
+* JWT-based authentication
+* Role-based access control
+* Student and Instructor roles
+* Protected routes
+
 ### Student Features
 
-- User registration and authentication
-- Secure JWT-based login
-- Browse all available courses
-- View detailed course information
-- Purchase courses using Stripe
-- Access enrolled courses
-- Video lesson player
-- Learning dashboard
-- User profile management
+* Browse courses by category
+* View course curriculum
+* Secure Stripe-powered checkout
+* Course enrollment
+* Personalized learning dashboard
+* Video lesson player
 
 ### Instructor Features
 
-- Instructor dashboard
-- Create and manage courses
-- Organize content into modules
-- Add and delete lessons
-- Upload lesson video URLs
-- Manage course curriculum
-- View all created courses
+* Create and manage courses
+* Add and delete modules
+* Add and delete lessons
+* Organize course curriculum
+* Manage educational content
 
-### Platform Features
+### Payments
 
-- Role-based access control
-- JWT Authentication
-- Stripe Payment Integration
-- MongoDB Database
-- Responsive Bootstrap UI
-- RESTful API Architecture
-- Protected Routes
-- Course Enrollment System
+* Stripe payment integration
+* Secure checkout workflow
+* Automatic enrollment after successful payment
 
----
+### Deployment
+
+* Frontend hosted on Vercel
+* Backend hosted on Render
+* MongoDB Atlas database
 
 ## Tech Stack
 
 ### Frontend
 
-- React
-- React Router DOM
-- Bootstrap 5
-- Axios
-- Stripe React SDK
-- Vite
+* React
+* React Router
+* Bootstrap 5
+* Axios
+* Vite
+* Stripe React SDK
 
 ### Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- Stripe API
-- CORS
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Mongoose
+* JWT
+* Stripe API
 
-### Database
+## Database Design
 
-- MongoDB Atlas
+The platform follows a hierarchical structure:
 
-### Deployment
+Course → Modules → Lessons
 
-- Frontend: Vercel
-- Backend: Render
-
----
-
-## Project Structure
-
-```text
-LearnHub
-│
-├── frontend
-│   ├── src
-│   ├── public
-│   └── package.json
-│
-├── backend
-│   ├── controllers
-│   ├── routes
-│   ├── models
-│   ├── middlewares
-│   ├── config
-│   └── package.json
-│
-└── README.md
-```
-
----
-
-## Environment Variables
-
-### Backend (.env)
-
-```env
-NODE_ENV=production
-
-PORT=3002
-
-MONGO_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-STRIPE_SECRET_KEY=your_stripe_secret_key
-
-CLIENT_URL=http://localhost:5173
-```
-
-### Frontend (.env)
-
-```env
-VITE_API_URL=http://localhost:3002
-
-VITE_STRIPE_PUBLISH_KEY=your_stripe_publishable_key
-```
-
----
-
-## Installation
-
-### Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
-### Backend Setup
-
-```bash
-cd backend
-
-npm install
-
-npm run dev
-```
-
-### Frontend Setup
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
----
+Users can enroll in courses and access lesson content through the learning dashboard.
 
 ## Future Improvements
 
-- Course completion tracking
-- Instructor analytics dashboard
-- Progress persistence
-- Course ratings and reviews
-- Certificate generation
-- Video upload support
-- Quiz and assessment system
-- AI-powered learning assistant
-- Wishlist and bookmarks
-
----
+* Become Instructor workflow
+* Course reviews and ratings
+* Progress tracking
+* Certificates
+* Quiz system
+* AI-powered learning assistant
 
 ## Author
 
 Paritosh Singh
 
-Electronics & Communication Engineering Student | Full Stack Developer
-
----
-
-## License
-
-This project is developed for educational and portfolio purposes.
+Full Stack Developer | MERN Stack | ECE Undergraduate

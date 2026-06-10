@@ -6,6 +6,7 @@ import {
   getUserProfile,
   updateUserProfile,
   updateUserPassword,
+  becomeInstructor,
 } from "../controllers/userController.js";
 
 import { authProtect } from "../middlewares/authMiddleware.js";
@@ -18,5 +19,8 @@ router.put("/profile", authProtect, updateUserProfile);
 
 //update user password
 router.put("/profile/password", authProtect, updateUserPassword);
+
+//become instructor
+router.patch("/become-instructor", authProtect, becomeInstructor);
 
 export default router;
